@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro de Usuario{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg" style="width: 100%; max-width: 600px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="mb-0">Crear una nueva cuenta</h3>
+        </div>
+        <div class="card-body p-4">
+            {{ form_start(registrationForm) }}
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.plainPassword, 'Contraseña') }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+
+            {# Puedes añadir más campos si has extendido el formulario, por ejemplo nombre o apellidos #}
+            {# 
+            <div class="mb-3">
+                {{ form_label(registrationForm.name) }}
+                {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.name) }}
+            </div>
+            #}
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Registrarse</button>
+            </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+        <div class="card-footer text-center">
+            ¿Ya tienes una cuenta? <a href="{{ path('app_login') }}">Inicia sesión aquí</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

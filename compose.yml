@@ -1,0 +1,41 @@
+services:
+  php:
+    build: ./docker/php
+    volumes:
+      - ./:/var/www/html:cached
+    env_file:
+      - .env          # Opcional: toma variables de Symfony (APP_ENV, etc.)
+    environment:
+      APP_ENV: dev
+    expose:
+      - "9000"
+
+  nginx:
+    build: ./docker/nginx
+    depends_on: [php]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/html:cached
+  mysql:
+      image: mysql:8.3
+      container_name: symfony-mysql
+      restart: always
+      ports:
+        - "3307:3307"
+      environment:
+        MYSQL_DATABASE: rexto        # base de datos inicial
+        MYSQL_USER: symfony        # usuario personalizado
+        MYSQL_PASSWORD: secret     # contraseña del usuario
+        MYSQL_ROOT_PASSWORD: root  # contraseña del root
+      volumes:
+        - db-data:/var/lib/mysql
+  composer:
+    image: composer:2
+    working_dir: /app
+    volumes:
+      - ./:/app
+    entrypoint: ["composer"]
+volumes:
+  db-data:
+# Opcional: volúmenes para caché de composer/node, si los usas
