@@ -1,0 +1,172 @@
+/* assets/styles/app.css */
+
+/* Contenedor del logo en la página de login */
+.login-logo-link {
+    /* Usamos Flexbox para alinear el logo y el texto verticalmente */
+    display: flex;
+    flex-direction: column; /* Apila los elementos uno encima del otro */
+    align-items: center;   /* Los centra horizontalmente */
+    
+    /* Quitamos el subrayado azul feo de los enlaces */
+    text-decoration: none;
+    margin-bottom: 1rem; /* Añade un espacio debajo */
+}
+
+/* Estilos para la imagen del logo */
+.login-logo-link img {
+    max-width: 120px; /* Hacemos el logo un poco más pequeño */
+    height: auto;
+    margin-bottom: 0.5rem; /* Pequeño espacio entre el logo y el texto */
+}
+
+/* Estilos para el nombre "NETADIR" */
+.login-logo-link .name {
+    font-size: 4.5rem; /* Tamaño de letra más grande */
+    font-weight: bold; /* Letra en negrita */
+    color: #9FC4A4;
+    letter-spacing: 2px; /* Un poco de espacio entre las letras */
+}
+
+
+/* --- Estilos para la Barra de Navegación (Versión 2.0) --- */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Clave para separar izquierda y derecha */
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0.5rem 2rem; /* Un poco menos de padding vertical */
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+/* --- SECCIÓN IZQUIERDA --- */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* Espacio entre el logo y los enlaces */
+}
+
+.nav-brand-logo img {
+    height: 40px; /* Altura fija para el logo */
+    width: auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+
+/* --- SECCIÓN DERECHA --- */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Espacio entre el icono de usuario y el de logout */
+}
+
+/* Contenedor del menú de usuario para el efecto hover */
+.user-menu {
+    position: relative; /* Necesario para posicionar el email */
+    cursor: pointer;
+}
+
+/* Iconos de la derecha */
+.navbar-right .fa-solid {
+    font-size: 1.2rem; /* Tamaño de los iconos */
+    color: #6c757d;
+    transition: color 0.2s;
+}
+
+.navbar-right .fa-solid:hover {
+    color: #343a40;
+}
+
+/* El email que aparece al hacer hover (oculto por defecto) */
+.user-email-tooltip {
+    visibility: hidden; /* Oculto */
+    opacity: 0;         /* Totalmente transparente */
+    
+    position: absolute; /* Posicionado relativo al .user-menu */
+    top: 150%;          /* Justo debajo del icono */
+    right: -15px;       /* Alineado a la derecha */
+    
+    background-color: #343a40;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap; /* Evita que el email se parta en dos líneas */
+    z-index: 10;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* La magia: MUESTRA el email cuando se hace hover sobre el .user-menu */
+.user-menu:hover .user-email-tooltip {
+    visibility: visible; /* Lo hace visible */
+    opacity: 1;          /* Lo hace opaco */
+}
+
+/* --- Estilos para el Dashboard --- */
+
+.dashboard-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.dashboard-grid {
+    display: grid;
+    /* Dos columnas en pantallas grandes */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem; /* Espacio entre las tarjetas */
+}
+
+.chart-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.chart-card h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    color: #495057;
+}
+
+/* Hacemos que en pantallas pequeñas los gráficos se pongan uno debajo del otro */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+}
+
+/* public/css/style.css */
+
+/* --- Estilos para Formularios --- */
+.form-card .card-body {
+    padding: 2rem; /* Más espacio interior en la tarjeta del formulario */
+}
+
+.form-card .form-group {
+    margin-bottom: 1.5rem; /* Un poco más de espacio entre cada campo */
+}
+
+body.auth-page {
+    background-color: #f8f9fa; /* Un gris muy claro */
+}

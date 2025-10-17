@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    google.credentials.path: '%kernel.project_dir%/config/credentials/rexto-469715-3c9f9df809fb.json'
+    google.credentials.path: '%kernel.project_dir%/config/credentials/rexto.json'
     google.gemini.api_key: '%env(GOOGLE_AI_API_KEY)%'
 
 services:
@@ -23,7 +23,7 @@ services:
     App\Service\GoogleOcrService:
         arguments:
             $projectDir: '%kernel.project_dir%'
-            $googleCredentialsPath: '%env(resolve:GOOGLE_APPLICATION_CREDENTIALS)%'
+            $googleCredentialsPath: '%kernel.project_dir%/config/credentials/%env(GOOGLE_APPLICATION_CREDENTIALS)%'
             # $googleApiKey: '%env(GOOGLE_CLOUD_OCR_KEY)%'
 
     App\Service\GoogleAiService:
@@ -31,5 +31,5 @@ services:
             $googleProject: '%env(GOOGLE_CLOUD_PROJECT)%'
             $region: '%env(GOOGLE_CLOUD_REGION)%'
             $model: '%env(GOOGLE_GEMINI_MODEL)%'
-            $credentialsPath: '%env(GOOGLE_CLOUD_CREDENTIALS)%'
+            $credentialsPath: '%kernel.project_dir%/config/credentials/%env(GOOGLE_CLOUD_CREDENTIALS)%'
             $projectDir: '%kernel.project_dir%'

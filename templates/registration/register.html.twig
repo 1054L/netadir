@@ -1,45 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registro de Usuario{% endblock %}
+{% block title %}Crear una cuenta{% endblock %}
 
 {% block body %}
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="card shadow-lg" style="width: 100%; max-width: 600px;">
-        <div class="card-header bg-primary text-white text-center">
-            <h3 class="mb-0">Crear una nueva cuenta</h3>
+<div class="container my-5" style="max-width: 600px;">
+    <div class="card shadow-sm">
+        <div class="card-header text-center">
+            <h2>Crear una nueva cuenta</h2>
+            <p class="text-muted">Da de alta tu empresa y tu cuenta de administrador.</p>
         </div>
         <div class="card-body p-4">
             {{ form_start(registrationForm) }}
+            
+            {# --- Sección de la Empresa --- #}
+            <h5 class="mb-3">Datos de la Empresa</h5>
+            <div class="mb-4">
+                {{ form_row(registrationForm.companyName, {
+                    'label_attr': {'class': 'form-label'},
+                    'attr': {'class': 'form-control', 'placeholder': 'Ej: Mi Empresa S.L.'}
+                }) }}
+            </div>
 
+            <hr class="my-4">
+
+            {# --- Sección del Usuario Administrador --- #}
+            <h5 class="mb-3">Datos del Administrador</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form_row(registrationForm.nombre, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form_row(registrationForm.apellidos, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
             <div class="mb-3">
-                {{ form_label(registrationForm.email) }}
-                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(registrationForm.email) }}
+                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
             </div>
-
             <div class="mb-3">
-                {{ form_label(registrationForm.plainPassword, 'Contraseña') }}
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(registrationForm.plainPassword) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Contraseña',
+                    'attr': {'class': 'form-control'}
+                }) }}
+            </div>
+            <div class="mb-4">
+                {{ form_row(registrationForm.agreeTerms) }}
             </div>
 
-            {# Puedes añadir más campos si has extendido el formulario, por ejemplo nombre o apellidos #}
-            {# 
-            <div class="mb-3">
-                {{ form_label(registrationForm.name) }}
-                {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(registrationForm.name) }}
-            </div>
-            #}
-
-            <div class="d-grid">
-                <button type="submit" class="btn btn-success">Registrarse</button>
-            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Registrar y Crear Cuenta</button>
 
             {{ form_end(registrationForm) }}
-        </div>
-        <div class="card-footer text-center">
-            ¿Ya tienes una cuenta? <a href="{{ path('app_login') }}">Inicia sesión aquí</a>
         </div>
     </div>
 </div>

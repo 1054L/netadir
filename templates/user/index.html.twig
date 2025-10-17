@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestión de Usuarios{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestión de Usuarios</h1>
+        <!-- Botón que abre un Modal para subir el fichero -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+            <i class="fa-solid fa-upload me-2"></i>Importar Usuarios
+        </button>
+    </div>
+
+    <table id="usersTable" class="table table-striped table-hover" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>DNI</th>
+                <th>Puesto</th>
+                <th>Calificación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.nombre }}</td>
+                <td>{{ user.apellidos }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.dni }}</td>
+                <td>{{ user.puesto }}</td>
+                <td>
+                    {# Bucle para mostrar estrellas según la calificación #}
+                    {% for i in 1..5 %}
+                        <i class="fa-solid fa-star {% if i <= user.calificacion %}text-warning{% else %}text-muted{% endif %}"></i>
+                    {% endfor %}
+                </td>
+                <td>
+                    {# Mostramos un badge de color según el estado #}
+                    {% if user.isActivo %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {# Enlace para editar al usuario #}
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-outline-primary" title="Editar usuario">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">No se encontraron usuarios.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para el formulario de subida -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Importar Fichero de Usuarios</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(upload_form, {'attr': {'class': 'd-flex flex-column gap-3'}}) }}
+                {{ form_row(upload_form.user_file) }}
+                <button type="submit" class="btn btn-success">Subir y Procesar</button>
+                {{ form_end(upload_form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Inicializa DataTables en nuestra tabla cuando el documento esté listo
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/2.0.7/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -39,28 +39,28 @@
             <hr>
             <h3>Llamada a la API</h3>
             <p>Usa la siguiente URL para subir imágenes vía API:</p>
-            <pre class="bg-light p-2 rounded">POST {{ absolute_url(path('api_ocr')) }}</pre>
+            <pre class="bg-light p-2 rounded">POST https://ocr.bolatoki.eus/api/ocr</pre>
+            <p>Autenticación: Usa tu API key en el encabezado <code>Authorization: ApiKey &lt;API_KEY&gt;</code></p>
             <p>Parámetros:</p>
             <ul>
                 <li><code>image_base64</code>: Imagen codificada en base64 (obligatorio)</li>
                 <li><code>custom_id</code>: Identificador personalizado (opcional)</li>
             </ul>
-            <p>Autenticación: Usa tu API key en el encabezado <code>Authorization: ApiKey &lt;API_KEY&gt;</code></p>
             <p>Respuesta: JSON con el estado del OCR y los datos extraídos.</p>
             <p>Ejemplo de respuesta:</p>
             <pre class="bg-light p-2 rounded" style="font-size: 0.85em; text-align: left;">
             {
                 "id": 33,
                 "filename": "ocr_68a81eb93be53.jpeg",
-                "custom_id": "doc_test_ocr_data",
+                "custom_id": "ocr_bowl_001",
                 "status": "completed",
                 "created_at": "2025-08-22 09:39:37",
                 "data": {
-                    "company": "PARKING SOL DE LAS MORERAS",
-                    "CIF": "B09013335",
-                    "date": "2025-06-23",
-                    "total": 3.4,
-                    "concept": "RECIBO JUSTIFICANTE DE PAGO"
+                    "company": "EUSKO BOWLING",
+                    "CIF": "B75928861",
+                    "date": "2025-08-17",
+                    "total": 26.00,
+                    "concept": "BOLOS FIN DE SEMANA"
                 },
                 "user": "iosulazcano@gmail.com"
             }
@@ -96,10 +96,15 @@
                             <div class="d-flex">
                                 <!-- Imagen a la izquierda -->
                                 <div class="me-3" style="width: 120px;">
-                                    <img src="{{ asset('uploads/' ~ req.filename) }}"
-                                        alt="Imagen del gasto"
-                                        class="img-fluid rounded"
-                                        style="height: 100%; object-fit: cover;">
+                                    <a href="#" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#imageModal" 
+                                        data-img-src="{{ asset('uploads/' ~ req.filename) }}">
+                                            <img src="{{ asset('uploads/' ~ req.filename) }}"
+                                                alt="Imagen del gasto"
+                                                class="img-fluid rounded"
+                                                style="height: 100%; object-fit: cover;">
+                                    </a>
                                 </div>
 
                                 <!-- Info a la derecha -->
@@ -131,4 +136,41 @@
         </div>
     </div>
 </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Vista previa del gasto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" id="modalImage" class="img-fluid" alt="Imagen del gasto en grande">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }} {# Opcional: para heredar scripts del 'base.html.twig' #}
+    <script>
+        // Espera a que el documento esté listo
+        document.addEventListener('DOMContentLoaded', function () {
+            // Selecciona el modal
+            var imageModal = document.getElementById('imageModal');
+            
+            // Escucha el evento que se dispara JUSTO ANTES de que el modal se muestre
+            imageModal.addEventListener('show.bs.modal', function (event) {
+                // 'event.relatedTarget' es el enlace <a> que activó el modal
+                var link = event.relatedTarget;
+                
+                // Obtiene la URL de la imagen del atributo 'data-img-src' del enlace
+                var imageUrl = link.getAttribute('data-img-src');
+                
+                // Selecciona la etiqueta <img> dentro del modal y le asigna la URL
+                var modalImage = imageModal.querySelector('#modalImage');
+                modalImage.src = imageUrl;
+            });
+        });
+    </script>
 {% endblock %}

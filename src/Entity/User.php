@@ -47,6 +47,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: OcrRequest::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $ocrRequests;
 
+    #[ORM\Column(length: 255)]
+    private ?string $nombre = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $apellidos = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dni = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $puesto = null;
+
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
+    private ?int $calificacion = 0;
+    
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
+
+    #[ORM\Column]
+    private ?bool $activo = true;
+
     #[ORM\Column]
     private bool $isVerified = false;
 
@@ -54,6 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->apiKeys = new ArrayCollection();
         $this->ocrRequests = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
@@ -205,6 +228,89 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): static
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getApellidos(): ?string
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos(string $apellidos): static
+    {
+        $this->apellidos = $apellidos;
+
+        return $this;
+    }
+
+    public function getDni(): ?string
+    {
+        return $this->dni;
+    }
+
+    public function setDni(?string $dni): static
+    {
+        $this->dni = $dni;
+
+        return $this;
+    }
+
+    public function getPuesto(): ?string
+    {
+        return $this->puesto;
+    }
+
+    public function setPuesto(?string $puesto): static
+    {
+        $this->puesto = $puesto;
+
+        return $this;
+    }
+
+    public function getCalificacion(): ?int
+    {
+        return $this->calificacion;
+    }
+
+    public function setCalificacion(?int $calificacion): static
+    {
+        $this->calificacion = $calificacion;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+    public function isActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): static
+    {
+        $this->activo = $activo;
 
         return $this;
     }

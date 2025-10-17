@@ -4,6 +4,10 @@
 
 {% block body %}
 <div class="container mt-5" style="max-width: 400px;">
+    <a href="{{ path('app_main') }}" class="login-logo-link">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo de NETADIR">
+        <span class="name">NETADIR</span>
+    </a>
     <h2 class="mb-4">Iniciar sesión</h2>
 
     {% if error %}

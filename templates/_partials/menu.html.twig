@@ -1,0 +1,32 @@
+{# templates/_partials/menu.html.twig #}
+<nav class="navbar">
+
+    <!-- === SECCIÓN IZQUIERDA: LOGO Y ENLACES === -->
+    <div class="navbar-left">
+        <a href="{{ path('app_dashboard') }}" class="nav-brand-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo de NETADIR">
+        </a>
+        <ul class="nav-links">
+            {# NOTA: Deberás crear estas rutas más adelante #}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('app_user_index') }}">Usuarios</a></li>
+            {% endif %}
+            <li><a href="#">Reportes</a></li>
+            <li><a href="#">Configuración</a></li>
+        </ul>
+    </div>
+
+    <!-- === SECCIÓN DERECHA: ICONOS DE USUARIO Y LOGOUT === -->
+    <div class="navbar-right">
+        <div class="user-menu">
+            <a href="{{ path('app_user_profile') }}" title="Editar mi perfil">
+                <i class="fa-solid fa-user user-icon"></i>
+            </a>
+            <span class="user-email-tooltip">{{ app.user.email }}</span>
+        </div>
+        <a href="{{ path('app_logout') }}" class="logout-icon" title="Cerrar Sesión">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+
+</nav>

@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tu Dashboard{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <p class="lead text-muted">Resumen de la actividad reciente, ¡hola {{ app.user.email }}!</p>
+    </div>
+
+    <!-- Contenedor de la rejilla para los gráficos -->
+    <div class="dashboard-grid">
+        
+        <!-- Tarjeta del Gráfico 1: Barras -->
+        <div class="chart-card">
+            <h3>Phishing Clicks por Departamento</h3>
+            <canvas id="clicksChart"></canvas>
+        </div>
+
+        <!-- Tarjeta del Gráfico 2: Doughnut -->
+        <div class="chart-card">
+            <h3>Resultados de la Última Campaña</h3>
+            <canvas id="campaignChart"></canvas>
+        </div>
+
+        <!-- Tarjeta del Gráfico 3: Líneas -->
+        <div class="chart-card">
+            <h3>Progreso de Formación Mensual</h3>
+            <canvas id="trainingChart"></canvas>
+        </div>
+
+        <!-- Tarjeta del Gráfico 4: Radar -->
+        <div class="chart-card">
+            <h3>Vulnerabilidades Detectadas</h3>
+            <canvas id="vulnerabilitiesChart"></canvas>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+
+{# Este bloque añade el JavaScript al final de la página #}
+{% block javascripts %}
+    {{ parent() }} {# Esto incluye el script de Chart.js que pusimos en base.html.twig #}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- GRÁFICO 1: Barras ---
+            const clicksCtx = document.getElementById('clicksChart').getContext('2d');
+            new Chart(clicksCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ventas', 'Marketing', 'IT', 'RRHH', 'Dirección'],
+                    datasets: [{
+                        label: 'Empleados que hicieron click',
+                        data: [12, 19, 3, 5, 2],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: { y: { beginAtZero: true } },
+                    responsive: true
+                }
+            });
+
+            // --- GRÁFICO 2: Doughnut ---
+            const campaignCtx = document.getElementById('campaignChart').getContext('2d');
+            new Chart(campaignCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Emails Ignorados', 'Clicks en Enlaces', 'Datos Enviados'],
+                    datasets: [{
+                        data: [300, 50, 15],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(255, 99, 132, 0.6)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            // --- GRÁFICO 3: Líneas ---
+            const trainingCtx = document.getElementById('trainingChart').getContext('2d');
+            new Chart(trainingCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+                    datasets: [{
+                        label: 'Empleados Formados',
+                        data: [65, 59, 80, 81, 56, 95],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            // --- GRÁFICO 4: Radar ---
+            const vulnerabilitiesCtx = document.getElementById('vulnerabilitiesChart').getContext('2d');
+            new Chart(vulnerabilitiesCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Contraseñas Débiles', 'Software Desactualizado', 'Redes WiFi Inseguras', 'Malware', 'Ingeniería Social'],
+                    datasets: [{
+                        label: 'Nivel de Riesgo Detectado',
+                        data: [7, 4, 8, 5, 9],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        pointBackgroundColor: 'rgb(255, 99, 132)',
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+        });
+    </script>
+{% endblock %}

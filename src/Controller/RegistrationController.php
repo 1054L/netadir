@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Security\AppLoginAuthenticator;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use RegistrationFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -36,22 +37,28 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            // 1. Crear y guardar la nueva empresa
+            $company = new Company();
+            $company->setName($form->get('companyName')->getData());
+            $entityManager->persist($company);
+
+            // 2. Configurar el nuevo usuario
+            $user->setCompany($company); // Asociamos el usuario a la empresa
+            $user->setRoles(['ROLE_ADMIN']); // ¡Le hacemos Admin!
+            $user->setActivo(true);
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
 
             $entityManager->persist($user);
             $entityManager->flush();
+            
+            $security->login($user, AppLoginAuthenticator::class, 'main');
 
-            // generate a signed url and email it to the user
-            // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-            //     (new TemplatedEmail())
-            //         ->from(new Address('iosulazcano@gmail.com', 'iosu'))
-            //         ->to((string) $user->getEmail())
-            //         ->subject('Please Confirm your Email')
-            //         ->htmlTemplate('registration/confirmation_email.html.twig')
-            // );
-
-            // do anything else you need here, like send an email
-
-            return $security->login($user, AppLoginAuthenticator::class, 'main');
+            return $this->redirectToRoute('app_dashboard');
         }
 
         return $this->render('registration/register.html.twig', [

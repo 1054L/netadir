@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block body %}
+<div class="container mt-4" style="max-width: 700px;">
+    
+    {# Bucle para mostrar mensajes de éxito/error #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# Añadimos la clase 'form-card' que hemos definido en el CSS #}
+    <div class="card form-card">
+        <div class="card-header">
+            <h2>Editar Mi Perfil</h2>
+        </div>
+        <div class="card-body">
+            {{ form_start(profile_form) }}
+            
+            {# Dividimos el formulario en dos columnas con el grid de Bootstrap #}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(profile_form.nombre) }}
+                        {{ form_widget(profile_form.nombre, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(profile_form.apellidos) }}
+                        {{ form_widget(profile_form.apellidos, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(profile_form.email) }}
+                {{ form_widget(profile_form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(profile_form.dni) }}
+                        {{ form_widget(profile_form.dni, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(profile_form.puesto) }}
+                        {{ form_widget(profile_form.puesto, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            {# El botón de guardar ya tiene las clases definidas en el FormType, así que solo lo renderizamos #}
+            {{ form_row(profile_form.guardar) }}
+
+            {{ form_end(profile_form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
