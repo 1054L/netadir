@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Security\AppLoginAuthenticator;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use RegistrationFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
