@@ -11,8 +11,18 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('app_user_index') }}">Usuarios</a></li>
             {% endif %}
-            <li><a href="#">Reportes</a></li>
-            <li><a href="#">Configuración</a></li>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('app_campaign_index') }}">Campañas</a></li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('app_report_index') }}">Reportes</a></li>
+            {% endif %}
+            
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('app_company_config') }}">Configuración</a></li>
+            {% endif %}
         </ul>
     </div>
 

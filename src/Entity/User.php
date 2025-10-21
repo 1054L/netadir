@@ -72,11 +72,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    /**
+     * @var Collection<int, CampaignResult>
+     */
+    #[ORM\OneToMany(targetEntity: CampaignResult::class, mappedBy: 'user')]
+    private Collection $CampaignResult;
+
     public function __construct()
     {
         $this->apiKeys = new ArrayCollection();
         $this->ocrRequests = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
+        $this->CampaignResult = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +318,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActivo(bool $activo): static
     {
         $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CampaignResult>
+     */
+    public function getCampaignResults(): Collection
+    {
+        return $this->CampaignResult;
+    }
+
+    public function addCampaignResult(CampaignResult $campaignResult): static
+    {
+        if (!$this->CampaignResult->contains($campaignResult)) {
+            $this->CampaignResult->add($campaignResult);
+            $campaignResult->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCampaignResult(CampaignResult $campaignResult): static
+    {
+        if ($this->CampaignResult->removeElement($campaignResult)) {
+            // set the owning side to null (unless already changed)
+            if ($campaignResult->getUser() === $this) {
+                $campaignResult->setUser(null);
+            }
+        }
 
         return $this;
     }

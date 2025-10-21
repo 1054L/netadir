@@ -1,0 +1,43 @@
+{# templates/campaign/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Nueva Campaña{% endblock %}
+
+{% block body %}
+<div class="container mt-4" style="max-width: 800px;">
+    <div class="card form-card">
+        <div class="card-header">
+            <h2>Crear Nueva Campaña de Simulación</h2>
+        </div>
+        <div class="card-body">
+            {{ form_start(campaignForm) }}
+
+            <div class="form-group">
+                {{ form_label(campaignForm.name) }}
+                {{ form_widget(campaignForm.name, {'attr': {'class': 'form-control'}}) }}
+                <small class="form-text text-muted">{{ form_help(campaignForm.name) }}</small>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(campaignForm.templateName) }}
+                {{ form_widget(campaignForm.templateName, {'attr': {'class': 'form-select'}}) }}
+                <small class="form-text text-muted">{{ form_help(campaignForm.templateName) }}</small>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(campaignForm.users) }}
+                
+                <div class="user-list-grid">
+                    {{ form_widget(campaignForm.users) }}
+                </div>
+                
+                <small class="form-text text-muted">{{ form_help(campaignForm.users) }}</small>
+            </div>
+
+            {{ form_row(campaignForm.save) }}
+
+            {{ form_end(campaignForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

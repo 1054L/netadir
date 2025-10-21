@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reportes de Campañas{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="dashboard-header">
+        <h1>Reportes de Campañas</h1>
+        <p class="lead text-muted">Aquí puedes ver el histórico de todas las simulaciones de phishing completadas.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre de la Campaña</th>
+                        <th>Plantilla Usada</th>
+                        <th>Fecha de Finalización</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for campaign in campaigns %}
+                        <tr>
+                            <td>{{ campaign.name }}</td>
+                            <td>{{ campaign.templateName }}</td>
+                            <td>{{ campaign.completedAt ? campaign.completedAt|date('d/m/Y') : 'N/A' }}</td>
+                            <td>
+                                <a href="{{ path('app_report_show', {'id': campaign.id}) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa-solid fa-eye me-1"></i> Ver Reporte
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                Aún no se ha completado ninguna campaña.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

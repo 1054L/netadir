@@ -170,3 +170,77 @@
 body.auth-page {
     background-color: #f8f9fa; /* Un gris muy claro */
 }
+
+/* public/css/style.css */
+
+/* --- Estilo para la lista de usuarios en el formulario de campaña --- */
+
+.user-list-grid {
+    /* Ahora sí se aplicarán estos estilos, 
+       quitando el borde y el scroll */
+    border: none;
+    padding: 0;
+    height: auto;
+    overflow-y: visible;
+    border: 1px solid #6c757d;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* El contenedor que crea las 3 columnas */
+.user-list-grid > div {
+    column-count: 3;
+    column-gap: 1.25rem;
+}
+
+/* 1. Ocultamos el checkbox real */
+.user-list-grid .form-check #campaign_users input[type="checkbox"] {
+    display: none;
+}
+
+/* 2. Quitamos todos los estilos del <div> que envuelve al checkbox */
+.user-list-grid .form-check {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    margin-bottom: 1rem;
+    break-inside: avoid;
+}
+
+/* 3. Convertimos la <label> en la "tarjeta" clickeable */
+.user-list-grid .form-check-label {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #dee2e6; /* Borde gris por defecto */
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* Transición suave */
+    position: relative; /* Necesario para el icono de check */
+    padding-right: 40px; 
+}
+
+/* 4. Cambiamos el estilo de la <label> cuando el checkbox está :checked */
+.user-list-grid input[type="checkbox"]:checked + .form-check-label {
+    background-color: #e6f7ff; /* Fondo azul claro */
+    border-color: #0d6efd;     /* Borde azul primario */
+    color: #0a58ca;           /* Texto azul oscuro */
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* 5. Añadimos el "marcado" (el icono de check) en la <label> */
+.user-list-grid input[type="checkbox"]:checked + .form-check-label::after {
+    font-family: 'Font Awesome 6 Free';
+    content: '\f00c'; /* El código del icono de check */
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0d6efd;
+    font-size: 1rem;
+}

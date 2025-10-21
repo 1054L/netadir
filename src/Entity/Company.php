@@ -33,10 +33,17 @@ class Company
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, Campaign>
+     */
+    #[ORM\OneToMany(targetEntity: Campaign::class, mappedBy: 'company')]
+    private Collection $campaigns;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->campaigns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +132,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($user->getCompany() === $this) {
                 $user->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Campaign>
+     */
+    public function getCampaigns(): Collection
+    {
+        return $this->campaigns;
+    }
+
+    public function addCampaign(Campaign $campaign): static
+    {
+        if (!$this->campaigns->contains($campaign)) {
+            $this->campaigns->add($campaign);
+            $campaign->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCampaign(Campaign $campaign): static
+    {
+        if ($this->campaigns->removeElement($campaign)) {
+            // set the owning side to null (unless already changed)
+            if ($campaign->getCompany() === $this) {
+                $campaign->setCompany(null);
             }
         }
 

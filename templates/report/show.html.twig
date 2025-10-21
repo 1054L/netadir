@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reporte: {{ campaign.name }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <a href="{{ path('app_report_index') }}" class="text-muted"><i class="fa-solid fa-arrow-left me-2"></i>Volver a la lista</a>
+    
+    <div class="dashboard-header mt-2">
+        <h1>Reporte: {{ campaign.name }}</h1>
+        <p class="lead text-muted">Completada el {{ campaign.completedAt|date('d/m/Y') }}</p>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Enviados</h5>
+                    <p class="card-text display-4">{{ totalUsers }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Clicks</h5>
+                    <p class="card-text display-4">{{ totalClicked }} <small>({{ clickRate|number_format(1) }}%)</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center text-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Vulnerables</h5>
+                    <p class="card-text display-4">{{ totalCompromised }} <small>({{ compromiseRate|number_format(1) }}%)</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Usuarios Vulnerables (que introdujeron datos)</h4>
+        </div>
+        <div class="card-body">
+            {% if compromisedUsers|length > 0 %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Puesto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in compromisedUsers %}
+                            <tr>
+                                <td>{{ user.nombre }} {{ user.apellidos }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.puesto }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-success">
+                    ¡Felicidades! Ningún usuario fue comprometido en esta campaña.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
